@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+  <form action="/spelling/" method="get">
+    <label for="lookup">Lookup: </label>
+    <input id="lookup" type="text" name="lookup" value="{{ word }}">
+    <input type="submit" value="Search">
+  </form>
+  {% if lookup_results %}
+  <ul>
+    {% for word, ld in lookup_results %}
+    <li>{{ word }} ({{ ld }})</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>No results are available.</p>
+  {% endif %}
+</body>
+</html>
