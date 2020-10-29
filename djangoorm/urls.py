@@ -18,6 +18,6 @@ from django.urls import path
 from django.conf.urls import include, url
 
 urlpatterns = [
-    url(r'^spelling/', include('spelling.urls')),
+    url(r'^election/', include('election.urls')),
     path('admin/', admin.site.urls),
 ]

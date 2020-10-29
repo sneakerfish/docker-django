@@ -8,9 +8,9 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data
+      - ./db:/var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD=inq6mth
+      - POSTGRES_PASSWORD=postgres
   web:
     build: .
     command: python3 manage.py runserver 0.0.0.0:8000

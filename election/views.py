@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 
-from spelling.make_ngrams import lookup_word
+# from spelling.make_ngrams import lookup_word
 
 # Create your views here.
 def index(request):
