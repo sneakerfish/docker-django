@@ -1,5 +1,5 @@
 import re
-from election.models import Office, StateOffice, Party, State
+from election.models import Office, StateOffice, Party, State, Candidate
 
 def load_office(file):
     with open(file) as fp:
@@ -17,7 +17,7 @@ def load_state_office(file):
     with open(file) as fp:
         for line in fp:
             line = line.rstrip()
-            result = re.mach(r"\s*(\d+)\.\s+(.*)", line)
+            result = re.match(r"\s*(\d+)\.\s+(.*)", line)
             if result:
                 so = StateOffice.objects.create(code=result.group(1),
                                                 name=result.group(2))
@@ -69,7 +69,9 @@ def load_state(file):
 
 def load_candidate(file):
     with open(file) as fp:
-        for line in fp:
+        line = fp.readline()
+        while line:
+            line = line.rstrip()
             cand_num = line[0:2]
             year = line[3:5]
             state_code = line[6:8]
@@ -81,3 +83,24 @@ def load_candidate(file):
             election_type = line[29:30]
             party_code = line[30:34]
             name = line[34:]
+            n = Candidate.objects.create(num=cand_num,
+                                         year=year,
+                                         state_code=state_code,
+                                         district_no=district_no,
+                                         asterisk=asterisk,
+                                         election_month=election_month,
+                                         election_type=election_type,
+                                         party_code=party_code,
+                                         name=name)
+            try:
+                line = fp.readline()
+            except UnicodeDecodeError:
+                print("oops")
+
+def load_data():
+    datadir = "election/data"
+    load_office("{}/offices.txt".format(datadir))
+    load_state("{}/icpsr_state_codes.txt".format(datadir))
+    load_state_office("{}/state_offices.txt".format(datadir))
+    load_party("{}/party.txt".format(datadir))
+    load_candidate("{}/00002-0001-Data.txt".format(datadir))
